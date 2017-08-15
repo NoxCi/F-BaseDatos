@@ -1,1 +1,1 @@
-# F-BaseDatos
+Repositorio de base de datos curso 2018-1
