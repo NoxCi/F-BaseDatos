@@ -1,0 +1,10 @@
+insert into geografico_normalizado.R1(id_municipio_y_cabeceraDF,nombre_municipio,cabecera_distrital_federal) values(12, 'M12', 'CDF12');
+insert into geografico_normalizado.R1(id_municipio_y_cabeceraDF,nombre_municipio,cabecera_distrital_federal) values(13, 'M13', 'CDF13');
+insert into geografico_normalizado.R1(id_municipio_y_cabeceraDF,nombre_municipio,cabecera_distrital_federal) values(14, 'M14', 'CDF14');
+insert into geografico_normalizado.R1(id_municipio_y_cabeceraDF,nombre_municipio,cabecera_distrital_federal) values(15, 'M15', 'CDF15');
+insert into geografico_normalizado.R1(id_municipio_y_cabeceraDF,nombre_municipio,cabecera_distrital_federal) values(16, 'M16', 'CDF16');
+insert into geografico_normalizado.R2 values(12, 'CAMPECHE', 'CAMP.', 'CDF12', 528, 'U');
+insert into geografico_normalizado.R2 values(13, 'CAMPECHE', 'CAMP.', 'CDF13', 529, 'U');
+insert into geografico_normalizado.R2 values(14, 'CAMPECHE', 'CAMP.', 'CDF14', 530, 'U');
+insert into geografico_normalizado.R2 values(15, 'CAMPECHE', 'CAMP.', 'CDF15', 531, 'U');
+insert into geografico_normalizado.R2 values(16, 'CAMPECHE', 'CAMP.', 'CDF16', 532, 'U');
