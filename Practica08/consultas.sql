@@ -43,7 +43,8 @@ select a.nombre from artista as a, pertenece as p, interprete as i, club as c
 select count(*) from disco; --19
 select distinct a.nombre from artista as a, pertenece as p, (select nombreint, count(nombreint) from pertenece group by nombreint) as count
   where count > 1 and a.curp = p.curp and p.nombreint = count.nombreint; --20
-select nombre, numfans from club limit 10 order by numfans;--21
+select nombre, numfans from club order by numfans
+  limit 1 offset 10;--21
 select distinct a.nombre from artista as a, pertenece as p, (select nombreint, count(nombreint) from pertenece group by nombreint) as count
   where count > 2 and a.curp = p.curp and p.nombreint = count.nombreint and funcion = 'Bajo'; --22
 --23 .Agrupar por nombreCompositor, contar el numero de conaciones y sacar el maximo
