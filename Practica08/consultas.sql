@@ -37,3 +37,14 @@ select d.genero from disco as d, interprete as i, club as c, (select MAX(numfans
 select nombreint, count(album) from disco group by nombreint; -- 16
 select di.disquera, di.direccion, count(e.codCan) from disquera as di, disco as d, esta as e
   where di.disquera = d.disquera and d.numref = e.numref group by di.disquera, di.direccion; --17
+select a.nombre from artista as a, pertenece as p, interprete as i, club as c
+  where c.numfans > 500 and i.pais = 'Inglaterra' and a.curp = p.curp and p.nombreint = i.nombreint
+    and i.nombreint = c.nombreint; -- 18
+select count(*) from disco; --19
+select distinct a.nombre from artista as a, pertenece as p, (select nombreint, count(nombreint) from pertenece group by nombreint) as count
+  where count > 1 and a.curp = p.curp and p.nombreint = count.nombreint; --20
+select nombre, numfans from club limit 10 order by numfans;--21
+select distinct a.nombre from artista as a, pertenece as p, (select nombreint, count(nombreint) from pertenece group by nombreint) as count
+  where count > 2 and a.curp = p.curp and p.nombreint = count.nombreint and funcion = 'Bajo'; --22
+--23 .Agrupar por nombreCompositor, contar el numero de conaciones y sacar el maximo
+--24 .Agrupar por año, contar el numero de discos en cada año y sacar el maximo
