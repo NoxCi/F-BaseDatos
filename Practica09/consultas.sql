@@ -25,3 +25,21 @@ select nombrec, titulo
   having count = MAX(count); --4
 select nombreint, nombre, funcion
   from interprete natural join pertenece natural join artista; --5
+select nombre, funcion
+  from club natural join interprete natural join pertenece
+  where funcion = 'Bajo'
+  group by nombre, funcion
+  having count(funcion) > 0; --6
+select funcion, count(funcion)
+  from pertenece
+  group by funcion; --7
+select cast(fechacreacion as varchar(4)), count(fechacreacion)
+  from interprete
+  group by fechacreacion
+  order by fechacreacion --8
+select nombreint, cast(cast(now() as varchar(4)) as integer) - cast(cast(fechacreacion as varchar(4)) as integer) as años
+  from interprete; --9
+select album, count(codcan)
+  from disco natural join esta, cancion
+  where cod = codcan
+  group by album; --10 falta la duracion mas larga
