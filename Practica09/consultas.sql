@@ -11,7 +11,17 @@ select distinct nombre, album, titulo
 	from  (esta natural join
            disco natural join
            interprete natural join
-           pertenece natural join artista) as j,
+           pertenece natural join
+           artista) as j,
            cancion
     where j.codcan = cancion.cod
     order by nombre; --3
+select nombrec, titulo
+  from
+    compositor
+      natural join
+    (select curpc ,titulo, count(titulo) from cancion, esta where cancion.cod = esta.codcan group by titulo, curpc) as tc
+  group by nombrec, count, titulo
+  having count = MAX(count); --4
+select nombreint, nombre, funcion
+  from interprete natural join pertenece natural join artista; --5
