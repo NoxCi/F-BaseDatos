@@ -39,7 +39,7 @@ select cast(fechacreacion as varchar(4)), count(fechacreacion)
   order by fechacreacion --8
 select nombreint, cast(cast(now() as varchar(4)) as integer) - cast(cast(fechacreacion as varchar(4)) as integer) as años
   from interprete; --9
-select album, count(codcan)
+select album, count(codcan), MAX(duracion)
   from disco natural join esta, cancion
   where cod = codcan
-  group by album; --10 falta la duracion mas larga
+  group by album; --10
