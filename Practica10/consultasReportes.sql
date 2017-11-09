@@ -38,7 +38,7 @@ from
           sum(FG) sumFG,
           sum(CG) sumCG,
           sum(rC) representantesC,
-          sum(IG) sumIG,
+          sum(IG) sumIC,
           sum(FC) sumFC,
           sum(CC) sumCC,
           total
@@ -56,16 +56,19 @@ from
            (case when tipo_representante = 'C' and tipo_presencia = 'F' then 1 else 0 end) FC,
            (case when tipo_representante = 'C' and tipo_presencia = 'C' then 1 else 0 end) CC,
            total
-      from (select distinct id_estado,
-                           id_distrito_federal,
+      from (select distinct ra.id_estado,
+                           ra.id_distrito_federal,
                            seccion,
                            tipo_casilla,
                            tipo_representante,
                            tipo_presencia,
                            total
             from casillas natural join asistencias
-                          natural join representantes_preliminares,
-                        --natural join representantes_aprobados,
+                          natural join representantes_preliminares rp
+                          join representantes_aprobados ra on rp.id_estado = ra.id_estado
+                                                          and rp.id_distrito_federal = ra.id_distrito_federal
+                                                          and rp.tipo_asociacion = ra.tipo_asociacion
+                                                          and rp.id_partido_candidato = ra.id_partido_candidato,
                           (select count(*) total from asistencias) as t
             where aprobada = 'S') as a) as b
   group by id_estado,
@@ -76,7 +79,7 @@ from
                        natural join estados
                        natural join municipios
                        natural join distritos_locales
-                       natural join distritos_federales --2
+                       natural join distritos_federales --2, tarda en ejecutarse
 
 --Tercera consulta
 select nombre, (numM*100)/(numM + numH) m, (numH*100)/(numM + numH) h
