@@ -57,12 +57,12 @@ from
            (case when tipo_representante = 'C' and tipo_presencia = 'C' then 1 else 0 end) CC,
            total
       from (select distinct ra.id_estado,
-                           ra.id_distrito_federal,
-                           seccion,
-                           tipo_casilla,
-                           tipo_representante,
-                           tipo_presencia,
-                           total
+                            ra.id_distrito_federal,
+                            seccion,
+                            tipo_casilla,
+                            tipo_representante,
+                            tipo_presencia,
+                            total
             from casillas natural join asistencias
                           natural join representantes_preliminares rp
                           join representantes_aprobados ra on rp.id_estado = ra.id_estado
