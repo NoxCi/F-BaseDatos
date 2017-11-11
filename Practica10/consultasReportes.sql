@@ -1,4 +1,4 @@
-set search_path to geografico,casillas, representantes, public;
+set search_path to geografico, casillas, representantes, public;
 --Primer consul
 select nombre, id_estado, cabecera_distrital_federal, cabecera_distrital_local, nombre_municipio, seccion, tipo_casilla
   from (((select distinct * from casillas)
