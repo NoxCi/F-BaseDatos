@@ -1,13 +1,40 @@
 set search_path to geografico, casillas, representantes, public;
 --Primer consul
 select nombre, id_estado, cabecera_distrital_federal, cabecera_distrital_local, nombre_municipio, seccion, tipo_casilla
-  from (((select distinct * from casillas)
+  from ((select distinct * from casillas
           except
-       (select distinct id_estado, id_distrito_federal, seccion, tipo_casilla, aprobada
-         from casillas natural join asistencias
-                       natural join representantes_preliminares
-                       natural join representantes_aprobados where aprobada = 'S')) as a
-       natural join secciones) as b natural join estados
+       (select distinct c.id_estado,
+                        c.id_distrito_federal,
+                        c.seccion,
+                        c.tipo_casilla,
+                        c.aprobada
+             from casillas c natural join asistencias a
+                           natural join representantes_preliminares rp
+                           join representantes_aprobados ra on rp.id_estado = ra.id_estado
+                                                           and rp.id_distrito_federal = ra.id_distrito_federal
+                                                           and rp.tipo_asociacion = ra.tipo_asociacion
+                                                           and rp.id_partido_candidato = ra.id_partido_candidato
+             where aprobada = 'S'
+
+                 union
+
+             select distinct c.id_estado,
+                             c.id_distrito_federal,
+                             c.seccion,
+                             c.tipo_casilla,
+                             c.aprobada
+             from casillas c natural join asistencias a
+                       join representantes_preliminares rp on a.id_representante = rp.id_estado
+                                                          and a.id_estado = rp.id_estado
+                                                          and a.id_distrito_federal = rp.id_distrito_federal
+                                                          and a.tipo_asociacion = rp.tipo_asociacion
+                                                          and a.id_partido_candidato = rp.id_partido_candidato
+                           join representantes_aprobados ra on rp.id_estado = ra.id_estado
+                                                           and rp.id_distrito_federal = ra.id_distrito_federal
+                                                           and rp.tipo_asociacion = ra.tipo_asociacion
+                                                           and rp.id_partido_candidato = ra.id_partido_candidato
+             where aprobada = 'S' and tipo_representante = 'G')) as b
+       natural join secciones) as c natural join estados
                                     natural join municipios
                                     natural join distritos_locales
                                     natural join distritos_federales; --1
@@ -56,26 +83,45 @@ from
            (case when tipo_representante = 'C' and tipo_presencia = 'F' then 1 else 0 end) FC,
            (case when tipo_representante = 'C' and tipo_presencia = 'C' then 1 else 0 end) CC,
            total
-      from (select distinct ra.id_estado,
-                            ra.id_distrito_federal,
-                            seccion,
-                            tipo_casilla,
-                            tipo_representante,
-                            tipo_presencia,
-                            total
-            from casillas natural join asistencias
+      from ((select distinct c.id_estado,
+                             c.id_distrito_federal,
+                             c.seccion,
+                             c.tipo_casilla,
+                             rp.tipo_representante,
+                             a.tipo_presencia
+            from casillas c natural join asistencias a
                           natural join representantes_preliminares rp
                           join representantes_aprobados ra on rp.id_estado = ra.id_estado
                                                           and rp.id_distrito_federal = ra.id_distrito_federal
                                                           and rp.tipo_asociacion = ra.tipo_asociacion
-                                                          and rp.id_partido_candidato = ra.id_partido_candidato,
-                          (select count(*) total from asistencias) as t
-            where aprobada = 'S') as a) as b
+                                                          and rp.id_partido_candidato = ra.id_partido_candidato
+            where aprobada = 'S'
+
+                union
+
+            select distinct c.id_estado,
+                             c.id_distrito_federal,
+                             c.seccion,
+                             c.tipo_casilla,
+                             rp.tipo_representante,
+                             a.tipo_presencia
+            from casillas c natural join asistencias a
+                      join representantes_preliminares rp on a.id_representante = rp.id_estado
+                                                         and a.id_estado = rp.id_estado
+                                                         and a.id_distrito_federal = rp.id_distrito_federal
+                                                         and a.tipo_asociacion = rp.tipo_asociacion
+                                                         and a.id_partido_candidato = rp.id_partido_candidato
+                          join representantes_aprobados ra on rp.id_estado = ra.id_estado
+                                                          and rp.id_distrito_federal = ra.id_distrito_federal
+                                                          and rp.tipo_asociacion = ra.tipo_asociacion
+                                                          and rp.id_partido_candidato = ra.id_partido_candidato
+            where aprobada = 'S' and tipo_representante = 'G')) as cg,
+           (select count(*) total from asistencias) as t) as a
   group by id_estado,
            id_distrito_federal,
            seccion,
            tipo_casilla,
-           total) as c natural join secciones
+           total) as b natural join secciones
                        natural join estados
                        natural join municipios
                        natural join distritos_locales
