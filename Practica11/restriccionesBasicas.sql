@@ -124,19 +124,24 @@ COMMENT ON TABLE partidos IS 'Tabla con todos los partidos politicos.';
   COMMENT ON COLUMN partidos.id_partido IS 'Identificador del partido politico.';
   COMMENT ON COLUMN partidos.nombre IS 'Nombre del partido politico.';
   COMMENT ON COLUMN partidos.siglas IS 'Siglas del partido politico.';
---particos
+--partidos
 
 --Esquema de Representantes
 --representantes_preliminares
 CREATE TABLE representantes.representantes_preliminares(
-  id_representante Integer PRIMARY KEY,
+  id_representante Integer,
+  id_estado Integer,
+  id_distrito_federal Integer,
   id_partido Integer,
-  nombre varchar(50),
-  apellido_paterno varchar(50),
-  apellido_materno varchar(50),
-  tipo_representante char(1) check (tipo_representante in ('G','C'))
-    CONSTRAINT FKPartidoRP FOREIGN KEY (id_partido)
-                           REFERENCES partidos (id_partido)
+  nombre Varchar(50),
+  apellido_paterno Varchar(50),
+  apellido_materno Varchar(50),
+  tipo_representante Char(1) CHECK (tipo_representante in ('G','C')),
+  aprobado Char(1) CHECK (aprobado IN ('S', 'N')) DEFAULT 'N',
+  tiempo_resgistro TimeStamp,
+    CONSTRAINT PKRepresentanteP PRIMARY KEY (id_representante, id_estado, id_distrito_federal, id_partido),
+    CONSTRAINT FKPartidoRP FOREIGN KEY (id_estado, id_distrito_federal, id_partido)
+                           REFERENCES partidos (id_estado, id_distrito_federal, id_partido)
 
 );
 --representantes_preliminares
@@ -149,7 +154,14 @@ CREATE TABLE representantes.representantes_preliminares(
 
 --representantes_aprobados
 CREATE TABLE representantes.representantes_aprobados(
-  id_representante Integer REFERENCES representantes_preliminares (id_representante),
-
+  id_representante Integer,
+  id_estado Integer,
+  id_distrito_federal Integer,
+  id_partido Integer,
+  id_usuario Integer,
+  fecha_y_hora_de_aprobacion TimeStamp,
+  CONSTRAINT PKRepresentanteA PRIMARY KEY (id_representante);
+  CONSTRAINT FKRepresentantePA FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido)
+                         REFERENCES representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido)
 );
 --representantes_aprobados
