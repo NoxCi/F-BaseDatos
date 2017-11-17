@@ -137,7 +137,7 @@ CREATE TABLE representantes.representantes_preliminares(
   apellido_paterno Varchar(50),
   apellido_materno Varchar(50),
   tipo_representante Char(1) CHECK (tipo_representante in ('G','C')),
-  aprobado Char(1) CHECK (aprobado IN ('S', 'N')) DEFAULT 'N',
+  aprobado Char(1) CHECK (aprobado IN ('S', 'N')) DEFAULT 'N', --revision pendiente
   tiempo_resgistro TimeStamp,
     CONSTRAINT PKRepresentanteP PRIMARY KEY (id_representante, id_estado, id_distrito_federal, id_partido),
     CONSTRAINT FKPartidoRP FOREIGN KEY (id_estado, id_distrito_federal, id_partido)
@@ -158,8 +158,8 @@ CREATE TABLE representantes.representantes_aprobados(
   id_estado Integer,
   id_distrito_federal Integer,
   id_partido Integer,
-  id_usuario Integer,
-  fecha_y_hora_de_aprobacion TimeStamp,
+  --id_usuario Integer,                  --se deben poner en otra tabla
+  --fecha_y_hora_de_aprobacion TimeStamp,
   CONSTRAINT PKRepresentanteA PRIMARY KEY (id_representante);
   CONSTRAINT FKRepresentantePA FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido)
                          REFERENCES representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido)
