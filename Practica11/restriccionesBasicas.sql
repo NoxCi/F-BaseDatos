@@ -138,8 +138,7 @@ CREATE TABLE representantes.representantes_preliminares(
   tiempo_resgistro TimeStamp,
     CONSTRAINT PKRepresentanteP PRIMARY KEY (id_representante, id_estado, id_distrito_federal, id_partido),
     CONSTRAINT FKPartidoRP FOREIGN KEY (id_estado, id_distrito_federal, id_partido)
-                           REFERENCES partidos (id_estado, id_distrito_federal, id_partido) match full
-
+                           REFERENCES partidos (id_estado, id_distrito_federal, id_partido) match full,
 );
 --representantes_preliminares
 
@@ -154,9 +153,10 @@ CREATE TABLE representantes.representantes_generales(
   apellido_materno Varchar(50),
   direccion_domicilio Varchar(255),
   correo Varchar(50),
-  clave_elector Varchar(16),
+  clave_elector Char(13) CHECK(clave _elector LIKE '[a-z]*6[0-9]*6{H,M}'),
     CONSTRAINT FKRepresentantePRG FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido)
                                   REFERENCES representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido) match full
+    CHECK (10 >= ALL(SELECT count(id_representante) FROM representantes_generales GROUP BY id_estado))
 );
 --representantes_generales
 
@@ -205,7 +205,7 @@ CREATE TABLE representantes.log_representantes_aprobados(
   tipo_operacion Char(1) CHECK (tipo_operacion IN ('U','I','D')),
     CONSTRAINT PKLogRA PRIMARY KEY (id_usuario, tiempo_registro),
     CONSTRAINT FKRepresentantePL FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido),
-                                 REFERENCES  representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido) match full
+                                 REFERENCES  representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido) match full,
 );
 --log_representantes_aprobados
 
@@ -220,3 +220,20 @@ CREATE TABLE representantes.representantes_aprobados(
                          REFERENCES representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido)
 );
 --representantes_aprobados
+
+--asistencias
+CREATE TABLE represetnantes.asistencias(
+  id_representante Integer,
+  id_estado Integer,
+  id_distrito_federal Integer,
+  seccion Integer,
+  tipo_casilla Char(1),
+  tipo_asistencia Char(1) CHECK(tipo_asistencia IN ('I','F','C')),
+  tipo_presencia Char(1) CHECK(tipo_presencia IN ('F', 'N')),
+  fecha_hora TimeStamp DEFAULT Now(),
+    CONSTRAINT PKAsistencias PRIMARY KEY (id_representante, id_estado, id_distrito_federal,seccion,tipo_casilla),
+    CONSTRAINT FKRepresentanteAA FOREIGN KEY (id_representante)
+                                  REFERENCES representantes_aprobados (id_representante),
+    CONSTRAINT FKCasillaA FOREIGN KEY (id_estado, id_distrito_federal, seccion, tipo_casilla)
+);
+--asistencias
