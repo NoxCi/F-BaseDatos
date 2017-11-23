@@ -158,7 +158,7 @@ select nombre, sum(c1) as °0a22°, sum(c2) as °23a39a°, sum(c3) as °40a59°,
      from
      (select id_representante, id_estado, sexo, (substring(clave_elector, 7, 2) || '/' || substring(clave_elector, 9, 2) || '/' || substring(clave_elector, 11, 2)) as fecha
        from
-       (select id_representante, id_estado, clave_elector, sexo from representantes_aprobados natural join representantes_preliminares) as a) as b) as c) as d natural join estados
+       (select id_representante, id_estado, clave_elector, sexo from representantes_preliminares) as a) as b) as c) as d natural join estados
   group by nombre; --4
                    -- al parecer SQL(o PostgresSQL) no puede manejar fechas 'grandes' y no saca la edad real de todos los representantes en particular no pasa de 50 años.
                    -- la consulta incluye el punto extra.
