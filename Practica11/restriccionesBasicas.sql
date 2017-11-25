@@ -138,7 +138,7 @@ CREATE TABLE representantes.representantes_preliminares(
   tiempo_resgistro TimeStamp,
     CONSTRAINT PKRepresentanteP PRIMARY KEY (id_representante, id_estado, id_distrito_federal, id_partido),
     CONSTRAINT FKPartidoRP FOREIGN KEY (id_estado, id_distrito_federal, id_partido)
-                           REFERENCES partidos (id_estado, id_distrito_federal, id_partido) match full,
+                           REFERENCES partidos (id_estado, id_distrito_federal, id_partido) match full
 );
 --representantes_preliminares
 
@@ -153,12 +153,13 @@ CREATE TABLE representantes.representantes_generales(
   apellido_materno Varchar(50),
   direccion_domicilio Varchar(255),
   correo Varchar(50),
-  clave_elector Char(13) CHECK(clave _elector LIKE '[a-z]*6[0-9]*6{H,M}'),
+  clave_elector Char(13) CHECK(clave_elector LIKE '[a-z]*6[0-9]*6{H,M}'),
     CONSTRAINT FKRepresentantePRG FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido)
                                   REFERENCES representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido) match full
-    CHECK (10 >= ALL(SELECT count(id_representante) FROM representantes_generales GROUP BY id_estado))
+    --CHECK (10 >= ALL(SELECT count(id_representante) FROM representantes_generales GROUP BY id_estado))
+    --PostgreSQL no soporta subquerys en los CHECK
 );
---representantes_generales
+--representantes_generales--checar
 
 --representantes_ante_casilla
 CREATE TABLE representantes.representantes_ante_casilla(
@@ -173,26 +174,13 @@ CREATE TABLE representantes.representantes_ante_casilla(
   apellido_materno Varchar(50),
   direccion_domicilio Varchar(255),
   correo Varchar(50),
-  tipo_cargo Char(1) CHECK(tipo_cargo IN ('P', 'S')  AND (
-                          1 > ALL (SELECT COUNT(tipo_cargo)
-                                   FROM representantes_ante_casilla
-                                   WHERE tipo_cargo = 'P'
-                                   GROUP BY id_estado, id_distrito_federal, seccion, tipo_casilla
-                                  )
-                                    OR
-                          1 > ALL (SELECT COUNT(tipo_cargo)
-                                   FROM representantes_ante_casilla
-                                   WHERE tipo_cargo = 'S'
-                                   GROUP BY id_estado, id_distrito_federal, seccion, tipo_casilla
-                                  )
-                             )
-                         ),
+  tipo_cargo Char(1) CHECK(tipo_cargo IN ('P', 'S')),
     CONSTRAINT FKCasillaRAC FOREIGN KEY (id_estado, id_distrito_federal, seccion, tipo_casilla)
                             REFERENCES casillas (id_estado, id_distrito_federal, seccion, tipo_casilla),
     CONSTRAINT FKRepresentantePRAC FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido)
                                    REFERENCES representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido) match full
 );
---representantes_ante_casilla
+--representantes_ante_casilla--checar
 
 --log_representantes_aprobados
 CREATE TABLE representantes.log_representantes_aprobados(
@@ -203,9 +191,9 @@ CREATE TABLE representantes.log_representantes_aprobados(
   id_distrito_federal Integer,
   id_partido Integer,
   tipo_operacion Char(1) CHECK (tipo_operacion IN ('U','I','D')),
-    CONSTRAINT PKLogRA PRIMARY KEY (id_usuario, tiempo_registro),
-    CONSTRAINT FKRepresentantePL FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido),
-                                 REFERENCES  representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido) match full,
+    CONSTRAINT PKLogRA PRIMARY KEY (id_usuario, tiempo_aprobacion),
+    CONSTRAINT FKRepresentantePL FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido)
+                                 REFERENCES  representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido) match full
 );
 --log_representantes_aprobados
 
@@ -215,14 +203,14 @@ CREATE TABLE representantes.representantes_aprobados(
   id_estado Integer,
   id_distrito_federal Integer,
   id_partido Integer,
-  CONSTRAINT PKRepresentanteA PRIMARY KEY (id_representante);
+  CONSTRAINT PKRepresentanteA PRIMARY KEY (id_representante),
   CONSTRAINT FKRepresentantePA FOREIGN KEY (id_representante, id_estado, id_distrito_federal, id_partido)
                          REFERENCES representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido)
 );
 --representantes_aprobados
 
 --asistencias
-CREATE TABLE represetnantes.asistencias(
+CREATE TABLE representantes.asistencias(
   id_representante Integer,
   id_estado Integer,
   id_distrito_federal Integer,
@@ -235,5 +223,6 @@ CREATE TABLE represetnantes.asistencias(
     CONSTRAINT FKRepresentanteAA FOREIGN KEY (id_representante)
                                   REFERENCES representantes_aprobados (id_representante),
     CONSTRAINT FKCasillaA FOREIGN KEY (id_estado, id_distrito_federal, seccion, tipo_casilla)
+                          REFERENCES casillas (id_estado, id_distrito_federal, seccion, tipo_casilla)
 );
 --asistencias
