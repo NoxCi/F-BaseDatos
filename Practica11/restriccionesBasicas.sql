@@ -134,7 +134,6 @@ CREATE TABLE representantes.representantes_preliminares(
   id_distrito_federal Integer,
   id_partido Integer,
   tipo_representante Char(1) CHECK (tipo_representante in ('G','C')),
-  aprobado Char(1) CHECK (aprobado IN ('S', 'N')) DEFAULT 'N', --revision pendiente
   tiempo_resgistro TimeStamp,
     CONSTRAINT PKRepresentanteP PRIMARY KEY (id_representante, id_estado, id_distrito_federal, id_partido),
     CONSTRAINT FKPartidoRP FOREIGN KEY (id_estado, id_distrito_federal, id_partido)
@@ -208,6 +207,17 @@ CREATE TABLE representantes.representantes_aprobados(
                          REFERENCES representantes_preliminares (id_representante, id_estado, id_distrito_federal, id_partido)
 );
 --representantes_aprobados
+
+--representantes_sustituciones
+CREATE TABLE representantes_sustituciones(
+  id_representante_sustituido Integer,
+  id_representante_suplente Integer,
+  tiempo_cambio TimeStamp,
+  CONSTRAINT PKRepresentanteS PRIMARY KEY (id_representante_sustituido, id_representante_sutituyente, tiempo_cambio)
+  CONSTRAINT FKRepresentanteARS1 FOREIGN KEY (id_representante_sustituido) REFERENCES representantes_aprobados (id_representante)
+  CONSTRAINT FKRepresentanteARS2 FOREIGN KEY (id_representante_sustituyente) REFERENCES representantes_aprobados (id_representante)
+);
+--representantes_sustituciones
 
 --asistencias
 CREATE TABLE representantes.asistencias(
