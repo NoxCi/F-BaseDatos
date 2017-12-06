@@ -43,9 +43,9 @@ CREATE OR REPLACE FUNCTION verifica_aprobacion_RGeneral (id_distrito_federal Int
 $$ LANGUAGE plpgsql;
 
 /*
-Maneja la sustitucion de un representante
+Maneja la sustitucion de un representante.
 */
-CREATE OR REPLACE FUNCTION sustituye_representante(id_representante_viejo Integer,
+CREATE OR REPLACE FUNCTION sustituye_representante (id_representante_viejo Integer,
                                                    id_representante_nuevo Integer,
                                                    id_estado_nuevo Integer,
                                                    id_distrito_federal_nuevo Integer,
@@ -68,4 +68,23 @@ BEGIN
   INSERT INTO representantes_sustituciones VALUES (id_representante_viejo, id_representante_nuevo, now());
 
 END;
+$$ LANGUAGE plpgsql;
+
+/*
+Verifica que la clave dada es valida.
+*/
+CREATE OR REPLACE FUNCTION verifica_clave_elector (clave Char(13)) RETURNS Boolean AS $$
+  BEGIN
+    IF clave IN (SELECT clave_elector FROM representantes_generales)
+      THEN RETURN False;
+    ELSIF NOT Substring(clave from 1 for 6) LIKE '[a-z]*6'
+      THEN RETURN False;
+    ELSIF NOT Substring(clave from 6 for 6) LIKE '[0-9]*6'
+      THEN RETURN False;
+    ELSIF NOT Substring(clave from 1 for 6) LIKE '{H,M}'
+      THEN RETURN False;
+    END IF;
+
+    RETURN True;
+  END;
 $$ LANGUAGE plpgsql;
