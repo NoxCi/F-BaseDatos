@@ -213,9 +213,9 @@ CREATE TABLE representantes_sustituciones(
   id_representante_sustituido Integer,
   id_representante_suplente Integer,
   tiempo_cambio TimeStamp,
-  CONSTRAINT PKRepresentanteS PRIMARY KEY (id_representante_sustituido, id_representante_sutituyente, tiempo_cambio)
-  CONSTRAINT FKRepresentanteARS1 FOREIGN KEY (id_representante_sustituido) REFERENCES representantes_aprobados (id_representante)
-  CONSTRAINT FKRepresentanteARS2 FOREIGN KEY (id_representante_sustituyente) REFERENCES representantes_aprobados (id_representante)
+  CONSTRAINT PKRepresentanteS PRIMARY KEY (id_representante_sustituido, id_representante_suplente, tiempo_cambio),
+  CONSTRAINT FKRepresentanteARS1 FOREIGN KEY (id_representante_sustituido) REFERENCES representantes_aprobados (id_representante),
+  CONSTRAINT FKRepresentanteARS2 FOREIGN KEY (id_representante_suplente) REFERENCES representantes_aprobados (id_representante)
 );
 --representantes_sustituciones
 
