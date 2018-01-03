@@ -1,0 +1,37 @@
+\documentclass[a4paper,twoside,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+\setlength{\textwidth}{125mm}
+\setlength{\textheight}{195mm}
+\setlength{\topmargin}{-5mm}
+
+\title{Dependencias funcionales}
+\author{Hiram Ehecatl Lujano Pastrana (313095409)}
+
+\begin{document}
+\maketitle
+
+Tomando es cuenta que cada entidad tiene su propia id unica que
+determina a sus demas atributos, podemos ahorrarnos mucha escritura
+diciendo que si la entidad A determina a la entidad B signica que el
+id de A determina el id de B y por lo tanto a sus atributos.
+
+Empezando con el esquema Geografico, podemos ver gracias al esquema
+relacional y al diagrama E-R que Municipio, Distrito\_local y
+Distrito\_federal determinan al Estado y que Seccion determina a
+Municipio, Distrito\_local, Distrito\_federal y al Estado.
+
+Con Casillas, tenemos que una Casilla determina a la Seccion que la
+contiene.
+
+El esquema de Partidos Politicos no tiene otra dependencia mas que
+su propia entidad Partido.
+
+Pasando al esquema de Representantes tenemos que la entidad
+Representante\_preliminar determina al Partido al que pertenece,
+Representante\_aprobado determina al Representante\_preliminar que fue
+aprobo, asi como al Representante\_general y ante casilla pues no pueden
+ser representantes generales o ante casilla si no fueron aprobados.
+
+\end{document}
