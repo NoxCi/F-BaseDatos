@@ -81,60 +81,60 @@
 
 \textbf{Partidos\_politicos}:
 \begin{itemize}
-  \item Partido: id\_estado, id\_distrito\_federal, id\_partido determinan el nombre\_partido y las siglas.
+  \item Partido: id\_distrito\_federal, id\_partido determinan el nombre\_partido y las siglas.
         Formalmente
 
-        Partido(id\_estado, id\_distrito\_federal, id\_partido, nombre\_partido, siglas)\\
-        $F=\{id\_estado~id\_distrito\_federal~id\_partido\rightarrow nombre\_partido~siglas\}$
+        Partido(id\_distrito\_federal, id\_partido, nombre\_partido, siglas)\\
+        $F=\{id\_distrito\_federal~id\_partido\rightarrow nombre\_partido~siglas\}$
 
-        (id\_estado~id\_distrito\_federal~id\_partido) es llave y esta del lado izquierdo de la unica DF,
+        (id\_distrito\_federal~id\_partido) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
 \end{itemize}
 
 \textbf{Representantes}:
 \begin{itemize}
-  \item Representante\_preliminar: id\_estado, id\_distrito\_federal, id\_partido, id\_representante determinan
+  \item Representante\_preliminar: id\_partido\_que\_registro, id\_representante determinan
         a nombre\_representante y fecha\_y\_hora\_registro. Formalmente
 
-        Representante\_preliminar(id\_estado, id\_distrito\_federal, id\_partido, id\_representante,
+        Representante\_preliminar(id\_partido\_que\_registro, id\_representante,
         nombre\_representante, fecha\_y\_hora\_registro)\\
-        $F=\{id\_estado~id\_distrito\_federal~id\_partido~id\_representante\rightarrow\\
+        $F=\{id\_partido\_que\_registro~id\_representante\rightarrow\\
         nombre\_representante~fecha\_y\_hora\_registro\}$
 
-        (id\_estado~id\_distrito\_federal~id\_partido~id\_representante) es llave y esta del lado izquierdo de la unica DF,
+        (id\_partido\_que\_registro~id\_representante) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
 
-  \item Representante\_aprobado: id\_estado, id\_distrito\_federal, id\_partido, id\_representante determinan
-        fecha\_y\_hora\_aprobacion y usuario\_que\_aprobo. Formalmente
+  \item Representante\_aprobado: id\_estado, id\_distrito\_federal, id\_representante determinan
+        id\_partido\_que\_registro, fecha\_y\_hora\_aprobacion y usuario\_que\_aprobo. Formalmente
 
-        Representante\_aprobado(id\_estado, id\_distrito\_federal, id\_partido, id\_representante,
+        Representante\_aprobado(id\_estado, id\_distrito\_federal, id\_representante, id\_partido\_que\_registro
         fecha\_y\_hora\_aprobacion, usuario\_que\_aprobo)\\
-        $F=\{id\_estado~id\_distrito\_federal~id\_partido~id\_representante\rightarrow\\
-        fecha\_y\_hora\_aprobacion~usuario\_que\_aprobo\}$
+        $F=\{id\_estado~id\_distrito\_federal~id\_representante\rightarrow\\
+        id\_partido\_que\_registro~fecha\_y\_hora\_aprobacion~usuario\_que\_aprobo\}$
 
-        (id\_estado~id\_distrito\_federal~id\_partido~id\_representante) es llave y esta del lado izquierdo de la unica DF,
+        (id\_estado~id\_distrito\_federal~id\_representante) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
 
-  \item Representante\_general: id\_estado, id\_distrito\_federal, id\_partido, id\_representante determinan
+  \item Representante\_general: id\_estado, id\_distrito\_federal, id\_representante determinan
         direccion\_representante\_g y clave\_elector. Formalmente
 
-        Representante\_general(id\_estado, id\_distrito\_federal, id\_partido, id\_representante,
+        Representante\_general(id\_estado, id\_distrito\_federal, id\_representante,
         direccion\_representante\_g, clave\_elector)\\
-        $F=\{id\_estado~id\_distrito\_federal~id\_partido~id\_representante\rightarrow\\
+        $F=\{id\_estado~id\_distrito\_federal~id\_representante\rightarrow\\
         direccion\_representante\_g~clave\_elector\}$
 
-        (id\_estado~id\_distrito\_federal~id\_partido~id\_representante) es llave y esta del lado izquierdo de la unica DF,
+        (id\_estado~id\_distrito\_federal~id\_representante) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
 
-  \item Representante\_ante\_casilla: id\_estado, id\_distrito\_federal, id\_partido, id\_representante determinan
+  \item Representante\_ante\_casilla: id\_estado, id\_distrito\_federal, id\_representante determinan
         direccion\_representante\_ac y tipo\_cargo. Formalmente
 
-        Representante\_ante\_casilla(id\_estado, id\_distrito\_federal, id\_partido, id\_representante,
+        Representante\_ante\_casilla(id\_estado, id\_distrito\_federal, id\_representante,
         direccion\_representante\_ac, tipo\_cargo)\\
-        $F=\{id\_estado~id\_distrito\_federal~id\_partido~id\_representante\rightarrow\\
+        $F=\{id\_estado~id\_distrito\_federal~id\_representante\rightarrow\\
         direccion\_representante\_ac~tipo\_cargo\}$
 
-        (id\_estado~id\_distrito\_federal~id\_partido~id\_representante) es llave y esta del lado izquierdo de la unica DF,
+        (id\_estado~id\_distrito\_federal~id\_representante) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
 
   \item Domicilia: Aqui solo hay DF triviales.
