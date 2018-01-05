@@ -36,7 +36,7 @@ CREATE DOMAIN IdRepresentante AS Text CHECK(value LIKE 'REP\d+');
 CREATE DOMAIN DoOperacion AS Char(1) CHECK(value IN ('U','I','D'));
 CREATE DOMAIN TipoPresencia AS Char(1) CHECK(value IN ('I','F','C'));
 CREATE DOMAIN RegistroPresencia AS Char(1) CHECK(value IN ('F', 'N'));
-CREATE DOMAIN ClaveElector AS Char(13) CHECK(value LIKE '[a-z]*6[0-9]*6{H,M}')
+CREATE DOMAIN ClaveElector AS Char(13) CHECK(value LIKE '[a-z]*6[0-9]*6{H,M}');
 
 ALTER TABLE Representante_preliminar ALTER id_representante TYPE IdRepresentante;
 ALTER TABLE log_representantes_aprobados ALTER operacion TYPE DoOperacion;
