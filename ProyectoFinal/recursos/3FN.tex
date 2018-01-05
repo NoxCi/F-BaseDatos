@@ -137,6 +137,14 @@
         (id\_estado~id\_distrito\_federal~id\_representante) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
 
+  \item Asistencia: id\_representante y fecha\_y\_hora determinan a tipo\_presencia, registro\_presencia. Formalmente
+
+        Asistencia(id\_representante, fecha\_y\_hora,tipo\_presencia, registro\_presencia)\\
+        $F=\{id\_representante, fecha\_y\_hora \rightarrow tipo\_presencia, registro\_presencia\}$
+
+        (id\_representante, fecha\_y\_hora) es llave y esta del lado izquierdo de la unica DF,
+        por lo que la relación esta en 3FN.
+        
   \item Domicilia: Aqui solo hay DF triviales.
   \item Casilla\_que\_representa: Solo DF triviales.
   \item log\_representantes\_aprobados: Sin DF.

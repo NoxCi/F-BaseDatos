@@ -15,8 +15,12 @@ ALTER TABLE Distrito_federal ALTER id_distrito_federal TYPE IdDistritoFederal;
 SET SEARCH_PATH TO Casillas;
 
 CREATE DOMAIN IdCasilla AS Text CHECK(value LIKE 'CAS\d+');
+CREATE DOMAIN TipoCasilla AS Char(1) CHECK(value IN ('B','C','S','E'));
+CREATE DOMAIN DoAprobada AS Char(1) CHECK(value IN ('S','N'));
 
 ALTER TABLE Casilla ALTER id_casilla TYPE IdCasilla;
+ALTER TABLE Casilla ALTER tipo_casilla TYPE TipoCasilla;
+ALTER TABLE Casilla ALTER aprobada TYPE DoAprobada;
 
 --Dominios del esquema Partidos_politicos
 SET SEARCH_PATH TO Partidos_politicos;
@@ -29,5 +33,12 @@ ALTER TABLE Partido ALTER id_partido TYPE IdPartido;
 SET SEARCH_PATH TO Representantes;
 
 CREATE DOMAIN IdRepresentante AS Text CHECK(value LIKE 'REP\d+');
+CREATE DOMAIN DoOperacion AS Char(1) CHECK(value IN ('U','I','D'));
+CREATE DOMAIN TipoPresencia AS Char(1) CHECK(value IN ('I','F','C'));
+CREATE DOMAIN RegistroPresencia AS Char(1) CHECK(value IN ('F', 'N'));
+CREATE DOMAIN ClaveElector AS Char(13) CHECK(value LIKE '[a-z]*6[0-9]*6{H,M}')
 
 ALTER TABLE Representante_preliminar ALTER id_representante TYPE IdRepresentante;
+ALTER TABLE log_representantes_aprobados ALTER operacion TYPE DoOperacion;
+ALTER TABLE Asistencia ALTER tipo_presencia TYPE TipoPresencia;
+ALTER TABLE Asistencia ALTER registro_presencia TYPE RegistroPresencia;
