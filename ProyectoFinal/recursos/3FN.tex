@@ -53,16 +53,8 @@
         (id\_estado~id\_distrito\_federal) es llave y esta del lado izquierdo de
         la unica DF por lo que la relación esta en 3FN.
 
-  \item Seccion: id\_estado, id\_municipio, id\_distrito\_local y id\_distrito\_federal
-        determinan seccion y tipo\_seccion. Formalmente
+  \item Seccion: No tiene DF no triviales
 
-        Seccion(id\_estado, id\_municipio, id\_distrito\_local, id\_distrito\_federal, seccion,
-        tipo\_seccion)\\
-        $F=\{id\_estado~id\_municipio~id\_distrito\_local~id\_distrito\_federal\rightarrow
-             seccion~tipo\_seccion\}$
-
-        (id\_estado~id\_municipio~id\_distrito\_local~id\_distrito\_federal) es llave y esta del lado
-        izquierdo de la unica DF, entonces la relación esta en 3FN.
 \end{itemize}
 
 \textbf{Casillas}:
@@ -93,15 +85,15 @@
 
 \textbf{Representantes}:
 \begin{itemize}
-  \item Representante\_preliminar: id\_partido\_que\_registro, id\_representante determinan
+  \item Representante\_preliminar: id\_distrito\_federal, id\_partido, id\_representante determinan
         a nombre\_representante y fecha\_y\_hora\_registro. Formalmente
 
-        Representante\_preliminar(id\_partido\_que\_registro, id\_representante,
+        Representante\_preliminar(id\_distrito\_federal, id\_partido, id\_representante,
         nombre\_representante, fecha\_y\_hora\_registro)\\
-        $F=\{id\_partido\_que\_registro~id\_representante\rightarrow\\
+        $F=\{id\_distrito\_federal~id\_partido~id\_representante\rightarrow\\
         nombre\_representante~fecha\_y\_hora\_registro\}$
 
-        (id\_partido\_que\_registro~id\_representante) es llave y esta del lado izquierdo de la unica DF,
+        (id\_distrito\_federal~id\_partido~id\_representante) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
 
   \item Representante\_aprobado: id\_estado, id\_distrito\_federal, id\_representante determinan
@@ -127,12 +119,12 @@
         por lo que la relación esta en 3FN.
 
   \item Representante\_ante\_casilla: id\_estado, id\_distrito\_federal, id\_representante determinan
-        direccion\_representante\_ac y tipo\_cargo. Formalmente
+        id\_casilla, direccion\_representante\_ac y tipo\_cargo. Formalmente
 
         Representante\_ante\_casilla(id\_estado, id\_distrito\_federal, id\_representante,
-        direccion\_representante\_ac, tipo\_cargo)\\
+        id\_casilla, direccion\_representante\_ac, tipo\_cargo)\\
         $F=\{id\_estado~id\_distrito\_federal~id\_representante\rightarrow\\
-        direccion\_representante\_ac~tipo\_cargo\}$
+        id\_casilla~direccion\_representante\_ac~tipo\_cargo\}$
 
         (id\_estado~id\_distrito\_federal~id\_representante) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.

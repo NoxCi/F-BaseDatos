@@ -39,7 +39,6 @@ CREATE TABLE Seccion(
   id_distrito_local Text NOT NULL,
   id_distrito_federal Text NOT NULL,
   seccion Int NOT NULL,
-  tipo_seccion Char(1) NOT NULL,
   PRIMARY KEY(id_estado, id_municipio, id_distrito_local, id_distrito_federal, seccion),
   FOREIGN KEY(id_municipio) REFERENCES Municipio(id_municipio),
   FOREIGN KEY(id_distrito_local) REFERENCES Distrito_local(id_distrito_local),
@@ -71,7 +70,7 @@ CREATE TABLE Partido(
   id_partido Text NOT NULL,
   nombre_partido Text NOT NULL,
   siglas VarChar(9) NOT NULL,
-  PRIMARY KEY (id_partido),
+  PRIMARY KEY (id_partido, id_distrito_federal, id_partido),
   FOREIGN KEY(id_distrito_federal) REFERENCES Distrito_federal(id_distrito_federal)
 );
 
@@ -79,12 +78,13 @@ CREATE TABLE Partido(
 SET SEARCH_PATH TO Representantes, Geografico, Casillas, Partidos_politicos;
 
 CREATE TABLE Representante_preliminar(
-id_partido_que_registro Text NOT NULL,
+id_distrito_federal Text Not NULL,
+id_partido Text NOT NULL,
 id_representante Text NOT NULL,
 nombre_representante Text NOT NULL,
 fecha_y_hora_registro TimeStamp NOT NULL,
-PRIMARY KEY (id_partido_que_registro, id_representante),
-FOREIGN KEY (id_partido_que_registro) REFERENCES Partido(id_partido)
+PRIMARY KEY (id_distrito_federal, id_partido, id_representante),
+FOREIGN KEY (id_distrito_federal, id_partido) REFERENCES Partido(id_distrito_federal, id_partido)
 );
 
 CREATE TABLE Representante_aprobado(
@@ -95,8 +95,8 @@ id_partido_que_registro Text NOT NULL,
 fecha_y_hora_aprobacion TimeStamp NOT NULL,
 usuario_que_aprobo Text NOT NULL,
 PRIMARY KEY (id_representante, id_estado, id_distrito_federal),
-FOREIGN KEY(id_partido_que_registro, id_representante)
-  REFERENCES Representante_preliminar(id_partido_que_registro, id_representante)
+FOREIGN KEY(id_distrito_federal, id_partido_que_registro, id_representante)
+  REFERENCES Representante_preliminar(id_distrito_federal, id_partido, id_representante)
 );
 
 CREATE TABLE Representante_general(
@@ -114,6 +114,7 @@ CREATE TABLE Representante_ante_casilla(
 id_estado Text REFERENCES Estado(id_estado) NOT NULL,
 id_distrito_federal Text NOT NULL,
 id_representante Text NOT NULL,
+id_casilla Text REFERENCES Casilla(id_casilla) NOT NULL,
 direccion_representante_g Text NOT NULL,
 clave_elector Char(13) NOT NULL,
 PRIMARY KEY (id_representante),
@@ -142,11 +143,6 @@ CREATE TABLE Domicilia(
     REFERENCES Seccion (id_estado, id_municipio, id_distrito_local, id_distrito_federal, seccion),
   FOREIGN KEY(id_representante) REFERENCES Representante_general(id_representante),
   FOREIGN KEY(id_representante) REFERENCES Representante_ante_casilla(id_representante)
-);
-
-CREATE TABLE Casilla_que_representa(
-  id_casilla Text REFERENCES Casilla(id_casilla) NOT NULL,
-  id_representante Text REFERENCES Representante_ante_casilla(id_representante) NOT NULL
 );
 
 CREATE TABLE representantes_sustituciones(
