@@ -70,7 +70,7 @@ CREATE TABLE Partido(
   id_partido Text NOT NULL,
   nombre_partido Text NOT NULL,
   siglas VarChar(9) NOT NULL,
-  PRIMARY KEY (id_partido, id_distrito_federal, id_partido),
+  PRIMARY KEY (id_partido, id_distrito_federal),
   FOREIGN KEY(id_distrito_federal) REFERENCES Distrito_federal(id_distrito_federal)
 );
 
