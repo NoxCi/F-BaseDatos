@@ -1,11 +1,11 @@
-SET SEARCH_PATH TO Representantes;
+SET SEARCH_PATH TO Representantes, Partidos_politicos;
 
 CREATE OR REPLACE FUNCTION InsertaRepresentantesPreliminares(cantidad Int) RETURNS Text AS $$
   DECLARE
     nombres Text[];
-    apellidos Text[15];
-    _id Text;
+    apellidos Text[];
     idMax Int;
+    cont Int;
   BEGIN
     nombres[0]= 'Jose';nombres[1]= 'Cesar';nombres[2]= 'Maria';nombres[3]= 'Silvia';
     nombres[4]= 'Urbano';nombres[5]= 'Elios';nombres[6]= 'Elisa';nombres[7]= 'Juan';
@@ -16,11 +16,27 @@ CREATE OR REPLACE FUNCTION InsertaRepresentantesPreliminares(cantidad Int) RETUR
     apellidos[12]= 'Paz';apellidos[13]= 'Castillo';apellidos[14]= 'Araveli';
 
     IF (SELECT COUNT(*) FROM Representante_preliminar) = 0
-    THEN idMAx := 0;
-    ELSE SELECT MAX(id_representante) INTO _id FROM Representante_preliminar;
-         idMax := Cast(Substring(_id From '[0-9]') AS Int);
+    THEN idMax := 0;
+    ELSE SELECT MAX(id_representante) INTO idMax FROM Representante_preliminar;
     END IF;
-    RETURN 'Hola';
+    cont:= 0;
+
+    LOOP
+      EXIT WHEN cont = cantidad;
+      cont:= cont +1;
+      idMax:= idMax +1;
+      INSERT INTO Representante_preliminar VALUES (CAST(random()*2+1 AS Int),
+                                                   CAST(random()*2+1 AS Int),
+                                                   idMax,
+                                                   nombres[random()*(array_length(nombres,1)-1)]
+                                                   ||' '||
+                                                   apellidos[random()*(array_length(apellidos,1)-1)],
+                                                   now());
+    END LOOP;
+
+    RETURN 'Insercion completada';
 
   END;
 $$ LANGUAGE plpgsql;
+
+SELECT InsertaRepresentantesPreliminares(33);
