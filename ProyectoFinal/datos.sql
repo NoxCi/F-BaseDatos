@@ -83,6 +83,8 @@ SELECT ApruebaRepresentanteGeneral(31, 'Direccion31', 1, 1, 1, 1, 1);
 SELECT ApruebaRepresentanteGeneral(32, 'Direccion32', 2, 2, 2, 2, 2);
 SELECT ApruebaRepresentanteGeneral(33, 'Direccion33', 3, 3, 3, 3, 3);
 
+SELECT CreaAsistencias();
+
 SELECT CreaSustitucion(1);
 SELECT CreaSustitucion(2);
 SELECT CreaSustitucion(3);
@@ -92,6 +94,4 @@ SELECT CreaSustitucion(6);
 SELECT CreaSustitucion(7);
 SELECT CreaSustitucion(8);
 SELECT CreaSustitucion(9);
-SELECT CreaSustitucion(1);
-
-CreaAsistencias();
+SELECT CreaSustitucion(10);

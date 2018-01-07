@@ -127,11 +127,13 @@ FOREIGN KEY (id_estado, id_distrito_federal, id_representante)
 CREATE TABLE Asistencia(
   id_representante Int NOT NULL,
   fecha_y_hora_presencia TimeStamp NOT NULL,
+  id_distrito_federal Int NOT NULL,
+  id_estado Int NOT NULL,
   tipo_presencia Char(1) NOT NULL,
   registro_presencia Char(1) NOT NULL,
   PRIMARY KEY(id_representante, fecha_y_hora_presencia),
-  FOREIGN KEY(id_representante) REFERENCES Representante_general(id_representante),
-  FOREIGN KEY(id_representante) REFERENCES Representante_ante_casilla(id_representante)
+  FOREIGN KEY (id_representante, id_estado, id_distrito_federal)
+    REFERENCES Representante_aprobado (id_representante, id_estado, id_distrito_federal)
 );
 
 CREATE TABLE Domicilia_represemtante_ac(
@@ -157,7 +159,7 @@ CREATE TABLE Domicilia_represemtante_g(
 );
 
 CREATE TABLE representantes_sustituciones(
-  id_representante_sustituido Int REFERENCES Representante_ante_casilla(id_representante) NOT NULL,
+  id_representante_sustituido Int  NOT NULL,
   id_representante_suplente Int NOT NULL,
   fecha_y_hora TimeStamp NOT NULL
 );
