@@ -86,12 +86,12 @@
 \textbf{Representantes}:
 \begin{itemize}
   \item Representante\_preliminar: id\_distrito\_federal, id\_partido, id\_representante determinan
-        a nombre\_representante y fecha\_y\_hora\_registro. Formalmente
+        a nombre\_representante, fecha\_nac, sexo y fecha\_y\_hora\_registro. Formalmente
 
         Representante\_preliminar(id\_distrito\_federal, id\_partido, id\_representante,
-        nombre\_representante, fecha\_y\_hora\_registro)\\
+        nombre\_representante, fecha\_nac, sexo fecha\_y\_hora\_registro)\\
         $F=\{id\_distrito\_federal~id\_partido~id\_representante\rightarrow\\
-        nombre\_representante~fecha\_y\_hora\_registro\}$
+        nombre\_representante~fecha\_nac~sexo~echa\_y\_hora\_registro\}$
 
         (id\_distrito\_federal~id\_partido~id\_representante) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
@@ -137,7 +137,8 @@
         (id\_representante, fecha\_y\_hora) es llave y esta del lado izquierdo de la unica DF,
         por lo que la relación esta en 3FN.
         
-  \item Domicilia: Aqui solo hay DF triviales.
+  \item Domicilia\_representante\_ac: Aqui solo hay DF triviales.
+  \item Domicilia\_representante\_g: Aqui solo hay DF triviales.
   \item Casilla\_que\_representa: Solo DF triviales.
   \item log\_representantes\_aprobados: Sin DF.
   \item Representantes\_sustituciones: Solo DF triviales.

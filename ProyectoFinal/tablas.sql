@@ -82,6 +82,8 @@ id_distrito_federal Int Not NULL,
 id_partido Int NOT NULL,
 id_representante Int NOT NULL,
 nombre_representante Text NOT NULL,
+fecha_nac Date NOT NULL,
+sexo Char(1) NOT NULL,
 fecha_y_hora_registro TimeStamp NOT NULL,
 PRIMARY KEY (id_distrito_federal, id_partido, id_representante),
 FOREIGN KEY (id_distrito_federal, id_partido) REFERENCES Partido(id_distrito_federal, id_partido)
@@ -116,7 +118,7 @@ id_distrito_federal Int NOT NULL,
 id_representante Int NOT NULL,
 id_casilla Int REFERENCES Casilla(id_casilla) NOT NULL,
 direccion_representante_g Text NOT NULL,
-clave_elector Char(13) NOT NULL,
+tipo_cargo Char(1) NOT NULL,
 PRIMARY KEY (id_representante),
 FOREIGN KEY (id_estado, id_distrito_federal, id_representante)
   REFERENCES Representante_aprobado(id_estado, id_distrito_federal, id_representante)
@@ -132,22 +134,31 @@ CREATE TABLE Asistencia(
   FOREIGN KEY(id_representante) REFERENCES Representante_ante_casilla(id_representante)
 );
 
-CREATE TABLE Domicilia(
+CREATE TABLE Domicilia_represemtante_ac(
   id_estado Int REFERENCES Estado(id_estado) NOT NULL,
   id_municipio Int NOT NULL,
   id_distrito_local Int NOT NULL,
   id_distrito_federal Int NOT NULL,
   seccion Int NOT NULL,
-  id_representante Int NOT NULL,
+  id_representante Int REFERENCES Representante_ante_casilla(id_representante) NOT NULL,
   FOREIGN KEY (id_estado, id_municipio, id_distrito_local, id_distrito_federal, seccion)
-    REFERENCES Seccion (id_estado, id_municipio, id_distrito_local, id_distrito_federal, seccion),
-  FOREIGN KEY(id_representante) REFERENCES Representante_general(id_representante),
-  FOREIGN KEY(id_representante) REFERENCES Representante_ante_casilla(id_representante)
+    REFERENCES Seccion (id_estado, id_municipio, id_distrito_local, id_distrito_federal, seccion)
+);
+
+CREATE TABLE Domicilia_represemtante_g(
+  id_estado Int REFERENCES Estado(id_estado) NOT NULL,
+  id_municipio Int NOT NULL,
+  id_distrito_local Int NOT NULL,
+  id_distrito_federal Int NOT NULL,
+  seccion Int NOT NULL,
+  id_representante Int REFERENCES Representante_general(id_representante) NOT NULL,
+  FOREIGN KEY (id_estado, id_municipio, id_distrito_local, id_distrito_federal, seccion)
+    REFERENCES Seccion (id_estado, id_municipio, id_distrito_local, id_distrito_federal, seccion)
 );
 
 CREATE TABLE representantes_sustituciones(
   id_representante_sustituido Int REFERENCES Representante_ante_casilla(id_representante) NOT NULL,
-  id_representante_suplente Int REFERENCES Representante_ante_casilla(id_representante) NOT NULL,
+  id_representante_suplente Int NOT NULL,
   fecha_y_hora TimeStamp NOT NULL
 );
 
