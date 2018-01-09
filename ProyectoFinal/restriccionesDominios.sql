@@ -1,4 +1,3 @@
-
 --Dominios del esquema Casillas
 SET SEARCH_PATH TO Casillas;
 

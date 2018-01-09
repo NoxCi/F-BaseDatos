@@ -165,6 +165,7 @@ CREATE TABLE representantes_sustituciones(
 );
 
 CREATE TABLE log_representantes_aprobados(
+  id_representante Int NOT NULL,
   usuario Text NOT NULL,
   fecha_y_hora TimeStamp NOT NULL,
   operacion Char(1)
