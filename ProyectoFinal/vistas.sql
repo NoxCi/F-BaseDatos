@@ -38,7 +38,7 @@ GROUP BY id_estado;
 
 CREATE OR REPLACE VIEW totalRepresentantesAproPorEstado AS
 SELECT id_estado, COUNT(id_estado) AS total_repre_apro
-FROM Representante_aprobados
+FROM Representante_aprobado
 GROUP BY id_estado;
 
 CREATE OR REPLACE VIEW totalOperaciones AS
