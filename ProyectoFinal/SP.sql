@@ -29,7 +29,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---Falta agregar una validacion para ver si se puede aprobar al representante.
 CREATE OR REPLACE FUNCTION ApruebaRepresentanteAnteCasilla(idRepresentante Int,
                                                            idCasilla Int,
                                                            direccion Text,
